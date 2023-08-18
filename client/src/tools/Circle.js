@@ -1,8 +1,8 @@
 import Tool from "./Tool";
 
 export default class Circle extends Tool {
-  constructor(canvas) {
-    super(canvas);
+  constructor(canvas, color) {
+    super(canvas, color);
     this.listen();
   }
   listen() {
