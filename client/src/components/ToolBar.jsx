@@ -2,6 +2,8 @@ import React from "react";
 import "../styles/bar.scss";
 import Brush from "../tools/Brush";
 import { useDispatch, useSelector } from "react-redux";
+import Rect from "../tools/Rect";
+import Circle from "../tools/Circle";
 
 export default function ToolBar() {
   const dispatch = useDispatch();
@@ -13,8 +15,18 @@ export default function ToolBar() {
         onClick={() => dispatch({ type: "brush", payload: new Brush(canvas) })}
         className="bar__btn brush"
       ></button>
-      <button className="bar__btn rect"></button>
-      <button className="bar__btn circle"></button>
+      <button
+        onClick={() =>
+          dispatch({ type: "rect", payload: new Rect(canvas) })
+        }
+        className="bar__btn rect"
+      ></button>
+      <button
+        onClick={() =>
+          dispatch({ type: "circle", payload: new Circle(canvas) })
+        }
+        className="bar__btn circle"
+      ></button>
       <button className="bar__btn eraser"></button>
       <button className="bar__btn line"></button>
       <input type="color" />
