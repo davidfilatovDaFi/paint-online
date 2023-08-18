@@ -1,13 +1,17 @@
+import { Provider } from "react-redux";
 import Canvas from "./components/Canvas";
 import ToolBar from "./components/ToolBar";
-import "./styles/index.scss"
+import './styles/index.scss'
+import { store } from "./redux/store";
 
 function App() {
   return (
-    <div className="app">
-      <ToolBar/>
-      <Canvas/>
-    </div>
+    <Provider store={store}>
+      <div className="app">
+        <ToolBar />
+        <Canvas />
+      </div>
+    </Provider>
   );
 }
 

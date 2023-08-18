@@ -1,11 +1,18 @@
 import React from "react";
 import "../styles/bar.scss";
+import Brush from "../tools/Brush";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function ToolBar() {
+  const dispatch = useDispatch();
+  const canvas = useSelector((state) => state.canvas);
 
   return (
     <div className="bar">
-      <button className="bar__btn brush"></button>
+      <button
+        onClick={() => dispatch({ type: "brush", payload: new Brush(canvas) })}
+        className="bar__btn brush"
+      ></button>
       <button className="bar__btn rect"></button>
       <button className="bar__btn circle"></button>
       <button className="bar__btn eraser"></button>
