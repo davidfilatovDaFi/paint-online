@@ -1,0 +1,83 @@
+.bar {
+  width: 100%;
+  height: 40px;
+  background-color: #fff;
+  position: absolute;
+  box-shadow: 0 2px 3px #949393;
+  display: flex;
+  align-items: center;
+  padding: 0 41px 0 21px;
+  z-index: 5;
+  &__btn {
+    width: 30px;
+    height: 30px;
+    border: none;
+    cursor: pointer;
+    margin-right: 16px;
+  }
+}
+
+.container {
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brush {
+  background: url('../assets/brush.png') no-repeat center;
+}
+.rect {
+  background: url('../assets/rect.png') no-repeat center;
+}
+.circle {
+  background: url('../assets/circle.png') no-repeat center;
+}
+.eraser {
+  background: url('../assets/eraser.png') no-repeat center;
+}
+.line {
+  background: url('../assets/line.png') no-repeat center;
+}
+.bucket {
+  background: url('../assets/bucket.png') no-repeat center;
+}
+.clear {
+  background: url('../assets/clear.png') no-repeat center;
+}
+.undo {
+  background: url('../assets/undo.png') no-repeat center;
+}
+.redo {
+  background: url('../assets/redo.png') no-repeat center;
+}
+.save {
+  background: url('../assets/save.png') no-repeat center;
+}
+
+.bar__btn {
+  background-size: cover;
+}
+
+input {
+  border: none;
+  background-color: #fff;
+  width: 40px;
+  height: 30px;
+  cursor: pointer;
+}
+
+label {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+}
+
+#width {
+  margin-left: 10px;
+  border: 1px solid #000;
+  text-align: center;
+  height: 22.5px;
+  width: 50px;
+}
+
+
