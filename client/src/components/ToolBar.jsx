@@ -8,20 +8,23 @@ import Line from "../tools/Line";
 import Eraser from "../tools/Eraser";
 
 export default function ToolBar() {
-
   const [color, setColor] = useState("#000000");
   const dispatch = useDispatch();
   const canvas = useSelector((state) => state.canvas);
-  const tool = useSelector(state => state.tool)
+  const tool = useSelector((state) => state.tool);
 
   return (
     <div className="bar">
       <button
-        onClick={() => dispatch({ type: "brush", payload: new Brush(canvas, color) })}
+        onClick={() =>
+          dispatch({ type: "brush", payload: new Brush(canvas, color) })
+        }
         className="bar__btn brush"
       ></button>
       <button
-        onClick={() => dispatch({ type: "rect", payload: new Rect(canvas, color) })}
+        onClick={() =>
+          dispatch({ type: "rect", payload: new Rect(canvas, color) })
+        }
         className="bar__btn rect"
       ></button>
       <button
@@ -37,18 +40,32 @@ export default function ToolBar() {
         className="bar__btn eraser"
       ></button>
       <button
-        onClick={() => dispatch({ type: "line", payload: new Line(canvas, color) })}
+        onClick={() =>
+          dispatch({ type: "line", payload: new Line(canvas, color) })
+        }
         className="bar__btn line"
       ></button>
-      <input onChange={(e) => {
-        tool.strokeColor(e.target.value);
-        setColor(e.target.value)
-      }} value={color} type="color" />
+      <input
+        onChange={(e) => {
+          tool.strokeColor(e.target.value);
+          setColor(e.target.value);
+        }}
+        value={color}
+        type="color"
+      />
       <div style={{ marginLeft: "20px" }}>
         <label htmlFor="width">Ширина линии</label>
-        <input id="width" type="number" defaultValue={1} min={1} max={50} />
+        <input
+          onChange={(e) => tool.lineWidth(e.target.value)}
+          id="width"
+          type="number"
+          defaultValue={1}
+          min={1}
+          max={50}
+        />
       </div>
       <button
+        onClick={() => tool.clearCanvas()}
         style={{ marginLeft: "auto" }}
         className="bar__btn clear"
       ></button>
