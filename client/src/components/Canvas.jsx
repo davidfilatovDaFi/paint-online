@@ -37,7 +37,14 @@ export default function Canvas() {
   }, []);
   return (
     <div className="canvas">
-      <canvas  ref={canvasRef} width={900} height={600}></canvas>
+      <canvas
+        onMouseDown={() =>
+          dispatch({ type: "undo", payload: canvasRef.current.toDataURL() })
+        }
+        ref={canvasRef}
+        width={900}
+        height={600}
+      ></canvas>
     </div>
   );
 }

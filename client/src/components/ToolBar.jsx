@@ -12,6 +12,44 @@ export default function ToolBar() {
   const dispatch = useDispatch();
   const canvas = useSelector((state) => state.canvas);
   const tool = useSelector((state) => state.tool);
+  const undoList = useSelector((state) => state.undo);
+  const redoList = useSelector((state) => state.redo);
+
+  const undo = () => {
+    if (undoList.length > 0) {
+      const img = new Image();
+      img.src = undoList.pop();
+      dispatch({ type: "redo", payload: tool.canvas.toDataURL() });
+      img.onload = () => {
+        tool.ctx.clearRect(0, 0, tool.canvas.width, tool.canvas.height);
+        tool.ctx.drawImage(
+          img,
+          0,
+          0,
+          tool.canvas.width,
+          tool.canvas.height
+        );
+      };
+    }
+  }
+
+  const redo =() => {
+    if (redoList.length > 0) {
+      const img = new Image();
+      img.src = redoList.pop();
+      dispatch({ type: "undo", payload: tool.canvas.toDataURL() });
+      img.onload = () => {
+        tool.ctx.clearRect(0, 0, tool.canvas.width, tool.canvas.height);
+        tool.ctx.drawImage(
+          img,
+          0,
+          0,
+          tool.canvas.width,
+          tool.canvas.height
+        );
+      };
+    }
+  }
 
   return (
     <div className="bar">
@@ -69,8 +107,8 @@ export default function ToolBar() {
         style={{ marginLeft: "auto" }}
         className="bar__btn clear"
       ></button>
-      <button className="bar__btn undo"></button>
-      <button className="bar__btn redo"></button>
+      <button onClick={undo} className="bar__btn undo"></button>
+      <button onClick={redo} className="bar__btn redo"></button>
       <button className="bar__btn save"></button>
     </div>
   );
