@@ -1,61 +1,30 @@
 import React, { useState } from "react";
 import "../styles/bar.scss";
-import Brush from "../tools/Brush";
 import { useDispatch, useSelector } from "react-redux";
+import Brush from "../tools/Brush";
 import Rect from "../tools/Rect";
 import Circle from "../tools/Circle";
-import Line from "../tools/Line";
 import Eraser from "../tools/Eraser";
+import Line from "../tools/Line";
 
 export default function ToolBar() {
   const [color, setColor] = useState("#000000");
+  const [width, setWidth] = useState(1);
   const dispatch = useDispatch();
   const canvas = useSelector((state) => state.canvas);
   const tool = useSelector((state) => state.tool);
   const undoList = useSelector((state) => state.undo);
   const redoList = useSelector((state) => state.redo);
-
-  const undo = () => {
-    if (undoList.length > 0) {
-      const img = new Image();
-      img.src = undoList.pop();
-      dispatch({ type: "redo", payload: tool.canvas.toDataURL() });
-      img.onload = () => {
-        tool.ctx.clearRect(0, 0, tool.canvas.width, tool.canvas.height);
-        tool.ctx.drawImage(
-          img,
-          0,
-          0,
-          tool.canvas.width,
-          tool.canvas.height
-        );
-      };
-    }
-  }
-
-  const redo =() => {
-    if (redoList.length > 0) {
-      const img = new Image();
-      img.src = redoList.pop();
-      dispatch({ type: "undo", payload: tool.canvas.toDataURL() });
-      img.onload = () => {
-        tool.ctx.clearRect(0, 0, tool.canvas.width, tool.canvas.height);
-        tool.ctx.drawImage(
-          img,
-          0,
-          0,
-          tool.canvas.width,
-          tool.canvas.height
-        );
-      };
-    }
-  }
+  const socket = useSelector((state) => state.socket);
 
   return (
     <div className="bar">
       <button
         onClick={() =>
-          dispatch({ type: "brush", payload: new Brush(canvas, color) })
+          dispatch({
+            type: "brush",
+            payload: new Brush(canvas, color, socket, width),
+          })
         }
         className="bar__btn brush"
       ></button>
@@ -84,17 +53,20 @@ export default function ToolBar() {
         className="bar__btn line"
       ></button>
       <input
-        onChange={(e) => {
-          tool.strokeColor(e.target.value);
-          setColor(e.target.value);
-        }}
         value={color}
+        onChange={(e) => {
+          setColor(e.target.value);
+          tool.strokeColor(e.target.value);
+        }}
         type="color"
       />
       <div style={{ marginLeft: "20px" }}>
         <label htmlFor="width">Ширина линии</label>
         <input
-          onChange={(e) => tool.lineWidth(e.target.value)}
+          onChange={(e) => {
+            tool.lineWidth(e.target.value);
+            setWidth(e.target.value);
+          }}
           id="width"
           type="number"
           defaultValue={1}
@@ -107,8 +79,46 @@ export default function ToolBar() {
         style={{ marginLeft: "auto" }}
         className="bar__btn clear"
       ></button>
-      <button onClick={undo} className="bar__btn undo"></button>
-      <button onClick={redo} className="bar__btn redo"></button>
+      <button
+        onClick={() => {
+          if (undoList.length > 0) {
+            const img = new Image();
+            img.src = undoList.pop();
+            dispatch({ type: "redo", payload: tool.canvas.toDataURL() });
+            img.onload = () => {
+              tool.ctx.clearRect(0, 0, tool.canvas.width, tool.canvas.height);
+              tool.ctx.drawImage(
+                img,
+                0,
+                0,
+                tool.canvas.width,
+                tool.canvas.height
+              );
+            };
+          }
+        }}
+        className="bar__btn undo"
+      ></button>
+      <button
+        onClick={() => {
+          if (redoList.length > 0) {
+            const img = new Image();
+            img.src = redoList.pop();
+            dispatch({ type: "undo", payload: tool.canvas.toDataURL() });
+            img.onload = () => {
+              tool.ctx.clearRect(0, 0, tool.canvas.width, tool.canvas.height);
+              tool.ctx.drawImage(
+                img,
+                0,
+                0,
+                tool.canvas.width,
+                tool.canvas.height
+              );
+            };
+          }
+        }}
+        className="bar__btn redo"
+      ></button>
       <button className="bar__btn save"></button>
     </div>
   );

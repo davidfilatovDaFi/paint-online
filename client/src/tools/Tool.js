@@ -1,9 +1,10 @@
 export default class Tool {
-  constructor(canvas, color) {
+  constructor(canvas, color, socket) {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
     this.ctx.strokeStyle = color;
     this.ctx.lineCap = "round";
+    this.socket = socket;
   }
 
   fillColor(color) {
