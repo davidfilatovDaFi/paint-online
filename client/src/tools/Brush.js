@@ -1,8 +1,8 @@
 import Tool from "./Tool";
 
 export default class Brush extends Tool {
-  constructor(canvas, color, socket) {
-    super(canvas, color, socket);
+  constructor(canvas, socket) {
+    super(canvas, socket);
     this.listen();
   }
   listen() {
@@ -38,12 +38,16 @@ export default class Brush extends Tool {
             type: "brush",
             x: e.pageX - e.target.offsetLeft,
             y: e.pageY - e.target.offsetTop,
+            color: this.ctx.strokeStyle,
+            width: this.ctx.lineWidth,
           },
         })
       );
     }
   }
-  static draw(ctx, x, y) {
+  static draw(ctx, x, y, color, width) {
+    ctx.lineWidth = width;
+    ctx.strokeStyle = color;
     ctx.lineTo(x, y);
     ctx.stroke();
   }

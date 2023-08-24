@@ -23,50 +23,44 @@ export default function ToolBar() {
         onClick={() =>
           dispatch({
             type: "brush",
-            payload: new Brush(canvas, color, socket, width),
+            payload: new Brush(canvas, socket),
           })
         }
         className="bar__btn brush"
       ></button>
       <button
         onClick={() =>
-          dispatch({ type: "rect", payload: new Rect(canvas, color) })
+          dispatch({ type: "rect", payload: new Rect(canvas, socket) })
         }
         className="bar__btn rect"
       ></button>
       <button
         onClick={() =>
-          dispatch({ type: "circle", payload: new Circle(canvas, color) })
+          dispatch({ type: "circle", payload: new Circle(canvas, socket) })
         }
         className="bar__btn circle"
       ></button>
       <button
         onClick={() =>
-          dispatch({ type: "eraser", payload: new Eraser(canvas, color) })
+          dispatch({ type: "eraser", payload: new Eraser(canvas, socket) })
         }
         className="bar__btn eraser"
       ></button>
       <button
-        onClick={() =>
-          dispatch({ type: "line", payload: new Line(canvas, color) })
-        }
+        onClick={() => dispatch({ type: "line", payload: new Line(canvas) })}
         className="bar__btn line"
       ></button>
       <input
         value={color}
         onChange={(e) => {
-          setColor(e.target.value);
-          tool.strokeColor(e.target.value);
+          tool.strokeColor = e.target.value;
         }}
         type="color"
       />
       <div style={{ marginLeft: "20px" }}>
         <label htmlFor="width">Ширина линии</label>
         <input
-          onChange={(e) => {
-            tool.lineWidth(e.target.value);
-            setWidth(e.target.value);
-          }}
+          onChange={(e) => tool.lineWidth = e.target.value}
           id="width"
           type="number"
           defaultValue={1}
