@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 import Brush from "../tools/Brush";
 import Rect from "../tools/Rect";
 import Circle from "../tools/Circle";
+import Eraser from "../tools/Eraser";
+import Line from "../tools/Line";
 
 export default function Canvas() {
   const canvasRef = useRef();
@@ -58,6 +60,21 @@ export default function Canvas() {
           figure.color,
           figure.width
         );
+        break;
+      case "eraser":
+        Eraser.draw(ctx, figure.x, figure.y, figure.width);
+        break;
+      case "line":
+        Line.onlineLine(
+          ctx,
+          figure.x,
+          figure.y,
+          figure.currentX,
+          figure.currentY,
+          figure.color,
+          figure.width
+        );
+        break;
     }
   };
 
@@ -67,7 +84,7 @@ export default function Canvas() {
     dispatch({ type: "canvas", payload: canvasRef.current });
     dispatch({
       type: "brush",
-      payload: new Brush(canvasRef.current, socket),
+      payload: new Brush(canvasRef.current, socket, "#000000", 1),
     });
 
     socket.onmessage = (event) => drawHandler(event.data);

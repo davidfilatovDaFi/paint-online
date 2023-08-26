@@ -1,8 +1,8 @@
 import Tool from "./Tool";
 
 export default class Brush extends Tool {
-  constructor(canvas, socket) {
-    super(canvas, socket);
+  constructor(canvas, socket, color, width) {
+    super(canvas, socket, color, width);
     this.listen();
   }
   listen() {
@@ -17,6 +17,8 @@ export default class Brush extends Tool {
       e.pageX - e.target.offsetLeft,
       e.pageY - e.target.offsetTop
     );
+    this.ctx.strokeStyle = this.color;
+    this.ctx.lineWidth = this.prewWidth;
   }
   mouseUpHandler(e) {
     this.mouseDown = false;
@@ -25,6 +27,7 @@ export default class Brush extends Tool {
         method: "draw",
         figure: {
           type: "finish",
+          color: this.color,
         },
       })
     );
